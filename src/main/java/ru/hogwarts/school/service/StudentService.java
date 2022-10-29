@@ -24,7 +24,7 @@ public class StudentService {
     public Student addStudent(Student student) {
 
         return studentRepository.save(student);
-        ;
+
     }
 
     public Student findStudent(long id) {
@@ -32,17 +32,17 @@ public class StudentService {
     }
 
     public Student editStudent(long id, Student student) {
-        if (studentRepository.existById(id)) {
+        if (!studentRepository.existsById(id)) {
             return null;
         }
         return studentRepository.save(student);
     }
 
-    public Faculty deleteFaculty(long id) {
-        return studentRepository.deleteById(id);
+    public void deleteStudent(long id) {
+       studentRepository.deleteById(id);
     }
     public Collection<Student> findByAge(int age) {
-        return studentRepository.findAllByAge (age);
+        return studentRepository.findByAge (age);
     }
 
 

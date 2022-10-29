@@ -34,11 +34,11 @@ public class FacultyController {
         return facultyService.addFaculty(faculty);
     }
 
-    @PutMapping
+    @PutMapping("{id}")
     public ResponseEntity<Faculty> editFaculty(@RequestBody Faculty faculty, long id) {
         Faculty foundFaculty = facultyService.editFaculty(id, faculty);
         if (foundFaculty == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         return ResponseEntity.ok(faculty);
     }
