@@ -8,6 +8,7 @@ import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.service.FacultyService;
 import ru.hogwarts.school.service.StudentService;
 
+import javax.validation.Valid;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -20,7 +21,7 @@ public class FacultyController {
         this.facultyService = facultyService;
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Faculty> getFacultyInfo(@PathVariable long id) {
         Faculty faculty = facultyService.findFaculty(id);
         if (faculty == null) {
@@ -30,12 +31,12 @@ public class FacultyController {
     }
 
     @PostMapping
-    public Faculty createFaculty(@RequestBody Faculty faculty) {
+    public Faculty createFaculty(@RequestBody @Valid Faculty faculty) {
         return facultyService.addFaculty(faculty);
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity<Faculty> editFaculty(@RequestBody Faculty faculty, long id) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Faculty> editFaculty(@PathVariable Faculty faculty, @RequestBody @Valid long id) {
         Faculty foundFaculty = facultyService.editFaculty(id, faculty);
         if (foundFaculty == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -43,7 +44,7 @@ public class FacultyController {
         return ResponseEntity.ok(faculty);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteFaculty(@PathVariable long id) {
         facultyService.deleteFaculty(id);
         return ResponseEntity.ok().build();
@@ -51,7 +52,7 @@ public class FacultyController {
 
 
     @GetMapping
-    public ResponseEntity<Collection<Faculty>> findFaculties(@RequestParam(required = false) String color) {
+    public ResponseEntity<Collection<Faculty>> findFacultiesByColor (@RequestParam(required = false) String color) {
         if (color != null && !color.isBlank()) {
             return ResponseEntity.ok(facultyService.findByColor(color));
         }
