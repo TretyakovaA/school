@@ -11,8 +11,18 @@ public class Student {
     private Long id;
     private String name;
     private int age;
+@OneToOne
+private Avatar avatar;
 
-  @ManyToOne
+    public Avatar getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(Avatar avatar) {
+        this.avatar = avatar;
+    }
+
+    @ManyToOne
   private Faculty faculty;
 
     public Faculty getFaculty() {

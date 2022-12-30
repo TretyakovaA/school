@@ -1,8 +1,10 @@
 package ru.hogwarts.school.component;
 
 import org.springframework.stereotype.Component;
+import ru.hogwarts.school.model.Avatar;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
+import ru.hogwarts.school.records.AvatarRecord;
 import ru.hogwarts.school.records.FacultyRecord;
 import ru.hogwarts.school.records.StudentRecord;
 
@@ -23,6 +25,16 @@ public class RecordMapper {
 
         return studentRecord;
     }
+    public AvatarRecord toRecord (Avatar avatar){
+        AvatarRecord avatarRecord = new AvatarRecord();
+        avatarRecord.setId(avatar.getId());
+       avatarRecord.setData(avatar.getData());
+       avatarRecord.setFilePath(avatar.getFilePath());
+       avatarRecord.setStudent(avatar.getStudent());
+       avatarRecord.setFileSize(avatar.getFileSize());
+       avatarRecord.setMediaType(avatar.getMediaType());
+        return avatarRecord;
+    }
     public Faculty toEntity (FacultyRecord facultyRecord){
         Faculty faculty = new Faculty();
         faculty.setId(facultyRecord.getId());
@@ -36,6 +48,16 @@ public class RecordMapper {
         student.setName(studentRecord.getName());
         student.setAge(studentRecord.getAge());
         return student;
+    }
+    public Avatar toEntity (AvatarRecord avatarRecord){
+        Avatar avatar = new Avatar();
+        avatar.setId(avatarRecord.getId());
+        avatar.setData(avatarRecord.getData());
+        avatar.setFilePath(avatarRecord.getFilePath());
+        avatar.setFileSize(avatarRecord.getFileSize());
+        avatar.setStudent(avatarRecord.getStudent());
+        avatar.setMediaType(avatarRecord.getMediaType());
+        return avatar;
     }
 
 }
