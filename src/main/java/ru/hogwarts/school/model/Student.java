@@ -14,6 +14,14 @@ public class Student {
 @OneToOne
 private Avatar avatar;
 
+    public Student() {
+    }
+
+    public Student(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
     public Avatar getAvatar() {
         return avatar;
     }

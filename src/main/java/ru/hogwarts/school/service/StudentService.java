@@ -35,7 +35,9 @@ Student student = recordMapper.toEntity(studentRecord);
     }
 
     public StudentRecord findStudent(long id) {
-        return recordMapper.toRecord(studentRepository.findById(id).orElseThrow(()-> new StudentNotFoundException(id)));
+        Student foundStudent = studentRepository.findById(id).orElseThrow(()-> new StudentNotFoundException(id));
+        System.out.println(foundStudent);
+        return recordMapper.toRecord(foundStudent);
     }
 
     public StudentRecord editStudent(long id, StudentRecord studentRecord) {

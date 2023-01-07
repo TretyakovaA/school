@@ -17,6 +17,7 @@ import java.util.Collections;
 @RequestMapping(path = "/student")
 
 public class StudentController {
+
     private final StudentService studentService;
 
     public StudentController(StudentService studentService) {
@@ -24,8 +25,10 @@ public class StudentController {
     }
 
     @GetMapping("/{id}")
-    public StudentRecord getStudentInfo(@PathVariable long id) {
-        return studentService.findStudent(id);
+    public ResponseEntity<StudentRecord> getStudentInfo(@PathVariable long id) {
+        StudentRecord studentRecord = studentService.findStudent(id);
+        System.out.println(studentRecord.getName());
+        return ResponseEntity.ok(studentRecord);
     }
 
     @PostMapping
