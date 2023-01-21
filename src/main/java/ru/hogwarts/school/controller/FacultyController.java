@@ -24,7 +24,7 @@ public class FacultyController {
     }
 
     @GetMapping("/{id}")
-    public FacultyRecord getFacultyInfo(@PathVariable long id) {
+    public FacultyRecord getFacultyInfo(@PathVariable Long id) {
         return facultyService.findFaculty(id);
     }
 
@@ -34,12 +34,12 @@ public class FacultyController {
     }
 
     @PutMapping("/{id}")
-    public FacultyRecord editFaculty(@RequestBody @Valid long id, @PathVariable FacultyRecord facultyRecord) {
+    public FacultyRecord editFaculty(@RequestBody @Valid Long id, @PathVariable FacultyRecord facultyRecord) {
         return facultyService.editFaculty(id, facultyRecord);
     }
 
     @DeleteMapping("/{id}")
-    public FacultyRecord deleteFaculty(@PathVariable long id) {
+    public FacultyRecord deleteFaculty(@PathVariable Long id) {
         return facultyService.deleteFaculty(id);
     }
 
@@ -55,7 +55,7 @@ public class FacultyController {
     }
 
     @GetMapping("/{id}/students")
-    public Collection<StudentRecord> getStudent(@RequestParam long id) {
+    public Collection<StudentRecord> getStudent(@RequestParam Long id) {
         return facultyService.getStudent(id);
     }
 }

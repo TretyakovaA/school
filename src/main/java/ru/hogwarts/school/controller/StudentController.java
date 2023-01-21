@@ -27,7 +27,7 @@ public class StudentController {
     @GetMapping("/{id}")
     public ResponseEntity<StudentRecord> getStudentInfo(@PathVariable long id) {
         StudentRecord studentRecord = studentService.findStudent(id);
-        System.out.println(studentRecord.getName());
+        System.out.println(studentRecord.getId());
         return ResponseEntity.ok(studentRecord);
     }
 
@@ -46,18 +46,19 @@ public class StudentController {
         return studentService.deleteStudent(id);
     }
 
-    @GetMapping(params = "age")
+    @GetMapping(path = "/byage", params = "age")
     public Collection<StudentRecord> findByAge(@RequestParam int age) {
         return studentService.findByAge(age);
     }
 
-    @GetMapping(params = {"minAge, maxAge"})
+    @GetMapping(path = "/byagebetween", params = {"minAge, maxAge"})
     public Collection<StudentRecord> findByAgeBetween(@RequestParam int minAge, @RequestParam int maxAge) {
+        System.out.println("Минимальный возраст = " + minAge + ", Максимальный возраст =" + maxAge);
         return studentService.findByAgeBetween(minAge, maxAge);
     }
 
     @GetMapping("/{id}/faculty")
-    public FacultyRecord getFaculty(@RequestParam long id) {
+    public FacultyRecord getFaculty(@PathVariable Long id) {
         return studentService.getFaculty(id);
     }
 

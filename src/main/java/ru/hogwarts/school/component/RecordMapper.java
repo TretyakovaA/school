@@ -19,7 +19,9 @@ public class RecordMapper {
     }
     public StudentRecord toRecord (Student student){
         StudentRecord studentRecord = new StudentRecord();
+        System.out.println("студент " + student.getId());
         studentRecord.setId(student.getId());
+        System.out.println("студент рекорд " + studentRecord.getId());
         studentRecord.setName(student.getName());
         studentRecord.setAge(student.getAge());
 

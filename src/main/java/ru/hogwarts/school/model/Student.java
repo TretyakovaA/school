@@ -8,9 +8,10 @@ import java.util.Objects;
 public class Student {
     @Id
     @GeneratedValue
-    private Long id;
+    private long id;
     private String name;
     private int age;
+
 @OneToOne
 private Avatar avatar;
 
@@ -20,6 +21,12 @@ private Avatar avatar;
     public Student(String name, int age) {
         this.name = name;
         this.age = age;
+    }
+
+    public Student(String name, int age, Faculty faculty) {
+        this.name = name;
+        this.age = age;
+        this.faculty = faculty;
     }
 
     public Avatar getAvatar() {
@@ -41,11 +48,11 @@ private Avatar avatar;
         this.faculty = faculty;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -70,7 +77,7 @@ private Avatar avatar;
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Student student = (Student) o;
-        return age == student.age && id.equals(student.id) && name.equals(student.name);
+        return age == student.age && id == (student.id) && name.equals(student.name);
     }
 
     @Override

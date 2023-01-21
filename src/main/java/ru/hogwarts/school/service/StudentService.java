@@ -60,6 +60,7 @@ Student student = recordMapper.toEntity(studentRecord);
     }
 
     public Collection <StudentRecord> findByAgeBetween (int min, int max){
+        System.out.println("Минимальный возраст = " + min + ", Максимальный возраст =" + max);
         return studentRepository.findByAgeBetween(min, max).stream()
                 .map(recordMapper::toRecord)
                 .collect(Collectors.toList());

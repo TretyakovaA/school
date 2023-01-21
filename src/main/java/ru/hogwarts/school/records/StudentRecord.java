@@ -1,13 +1,14 @@
 package ru.hogwarts.school.records;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 public class StudentRecord {
-    private Long id;
+    private long id;
     @NotBlank (message = "Имя студента должно быть заполнено")
     private String name;
-    @NotBlank (message = "Возраст должен быть заполнен")
-    private Integer age;
+    @NotNull(message = "Возраст должен быть заполнен")
+    private int age;
     private FacultyRecord faculty;
 
     public StudentRecord() {
@@ -18,7 +19,7 @@ public class StudentRecord {
     }
 
     public void setId(long id) {
-        id = id;
+        this.id = id;
     }
 
     public String getName() {
@@ -29,11 +30,11 @@ public class StudentRecord {
         this.name = name;
     }
 
-    public Integer getAge() {
+    public int getAge() {
         return age;
     }
 
-    public void setAge(Integer age) {
+    public void setAge(int age) {
         this.age = age;
     }
 
