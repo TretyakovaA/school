@@ -52,7 +52,9 @@ class StudentControllerTest {
 
     @Test
     void getStudentInfo() {
-        Student student = new Student("Имя", 18);
+        Faculty faculty = new Faculty("Имя факультета", "Цвет факультета");
+        faculty = facultyRepository.save(faculty);
+        Student student = new Student("Имя", 18, faculty);
         student = studentRepository.save(student);
         System.out.println(student);
         Long id = student.getId();
@@ -68,12 +70,15 @@ class StudentControllerTest {
                 assertThat(result.getAge()).isEqualTo(18);
 
         studentRepository.delete(student);
+        facultyRepository.delete(faculty);
     }
 
     @Test
     void createStudent() {
+        Faculty faculty = new Faculty("Имя факультета", "Цвет факультета");
+        faculty = facultyRepository.save(faculty);
 
-        Student student = new Student("Имя", 18);
+        Student student = new Student("Имя", 18, faculty);
         StudentRecord studentRecord = recordMapper.toRecord(student);
 
         ResponseEntity<StudentRecord> response = restTemplate.postForEntity("http://localhost:" + port + "/student", studentRecord, StudentRecord.class);
@@ -82,12 +87,15 @@ class StudentControllerTest {
         Assertions.
                 assertThat(response.getBody().getAge()).isEqualTo(18);
 
-        studentRepository.delete(student);
+        studentRepository.delete(studentRepository.findById(response.getBody().getId()).orElseThrow());
+        facultyRepository.delete(faculty);
     }
 
     @Test
     void editStudent() {
-        Student student = new Student("Имя", 18);
+        Faculty faculty = new Faculty("Имя факультета", "Цвет факультета");
+        faculty = facultyRepository.save(faculty);
+        Student student = new Student("Имя", 18, faculty);
         student = studentRepository.save(student);
         System.out.println(student);
         Long id = student.getId();
@@ -103,11 +111,14 @@ class StudentControllerTest {
                 assertThat(result.getAge()).isEqualTo(18);
 
         studentRepository.delete(student);
+        facultyRepository.delete(faculty);
     }
 
     @Test
     void deleteStudent() {
-        Student student = new Student("Имя", 18);
+        Faculty faculty = new Faculty("Имя факультета", "Цвет факультета");
+        faculty = facultyRepository.save(faculty);
+        Student student = new Student("Имя", 18, faculty);
         student = studentRepository.save(student);
         System.out.println(student);
         long id = student.getId();
@@ -118,12 +129,15 @@ class StudentControllerTest {
         ResponseEntity<StudentRecord> response = restTemplate.exchange("http://localhost:" + port + "/student/{id}", HttpMethod.DELETE,
                 null, StudentRecord.class, id);
         Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        facultyRepository.delete(faculty);
     }
 
     @Test
     void findByAge() {
-        Student student = new Student("Ира", 5);
-        Student student1 = new Student("Настя", 5);
+        Faculty faculty = new Faculty("Имя факультета", "Цвет факультета");
+        faculty = facultyRepository.save(faculty);
+        Student student = new Student("Ира", 5, faculty);
+        Student student1 = new Student("Настя", 5, faculty);
         student = studentRepository.save(student);
         student1 = studentRepository.save(student1);
         System.out.println(student);
@@ -151,13 +165,16 @@ class StudentControllerTest {
 
         studentRepository.delete(student);
         studentRepository.delete(student1);
+        facultyRepository.delete(faculty);
     }
 
     @Test
     void findByAgeBetween() {
-        Student student = new Student("Ира", 5);
-        Student student1 = new Student("Настя", 5);
-        Student student2 = new Student("Вова", 15);
+        Faculty faculty = new Faculty("Имя факультета", "Цвет факультета");
+        faculty = facultyRepository.save(faculty);
+        Student student = new Student("Ира", 5, faculty);
+        Student student1 = new Student("Настя", 5, faculty);
+        Student student2 = new Student("Вова", 15, faculty);
         student = studentRepository.save(student);
         student1 = studentRepository.save(student1);
         student2 = studentRepository.save(student2);
@@ -184,6 +201,7 @@ class StudentControllerTest {
         studentRepository.delete(student);
         studentRepository.delete(student1);
         studentRepository.delete(student2);
+        facultyRepository.delete(faculty);
     }
 
     @Test
@@ -197,7 +215,7 @@ class StudentControllerTest {
 
 
         FacultyRecord result = restTemplate.getForObject("http://localhost:" + port + "/student/{id}/faculty", FacultyRecord.class, id);
-        System.out.println(result.getName() + " " + result.getColor());
+        ///System.out.println(result.getName() + " " + result.getColor());
         Assertions.
                 assertThat(result.getName()).isEqualTo("Имя факультета");
         Assertions.

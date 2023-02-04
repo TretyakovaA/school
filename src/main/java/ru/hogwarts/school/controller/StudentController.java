@@ -51,14 +51,14 @@ public class StudentController {
         return studentService.findByAge(age);
     }
 
-    @GetMapping(path = "/byagebetween", params = {"minAge, maxAge"})
+    @GetMapping(path = "/byagebetween", params = {"minAge", "maxAge"})
     public Collection<StudentRecord> findByAgeBetween(@RequestParam int minAge, @RequestParam int maxAge) {
         System.out.println("Минимальный возраст = " + minAge + ", Максимальный возраст =" + maxAge);
         return studentService.findByAgeBetween(minAge, maxAge);
     }
 
     @GetMapping("/{id}/faculty")
-    public FacultyRecord getFaculty(@PathVariable Long id) {
+    public FacultyRecord getFaculty(@PathVariable long id) {
         return studentService.getFaculty(id);
     }
 

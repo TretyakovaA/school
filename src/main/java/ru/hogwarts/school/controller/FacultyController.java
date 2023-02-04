@@ -24,7 +24,7 @@ public class FacultyController {
     }
 
     @GetMapping("/{id}")
-    public FacultyRecord getFacultyInfo(@PathVariable Long id) {
+    public FacultyRecord getFacultyInfo(@PathVariable long id) {
         return facultyService.findFaculty(id);
     }
 
@@ -34,28 +34,28 @@ public class FacultyController {
     }
 
     @PutMapping("/{id}")
-    public FacultyRecord editFaculty(@RequestBody @Valid Long id, @PathVariable FacultyRecord facultyRecord) {
+    public FacultyRecord editFaculty( @PathVariable long id, @RequestBody @Valid FacultyRecord facultyRecord) {
         return facultyService.editFaculty(id, facultyRecord);
     }
 
     @DeleteMapping("/{id}")
-    public FacultyRecord deleteFaculty(@PathVariable Long id) {
+    public FacultyRecord deleteFaculty(@PathVariable long id) {
         return facultyService.deleteFaculty(id);
     }
 
 
-    @GetMapping(params = "color")
+    @GetMapping(path = "/find", params = "color")
     public Collection<FacultyRecord> findFacultiesByColor(@RequestParam String color) {
         return facultyService.findByColor(color);
     }
 
-    @GetMapping(params = "nameOrColor")
+    @GetMapping(path = "/findby",params = "nameOrColor")
     public Collection<FacultyRecord> findByNameOrColor(@RequestParam String nameOrColor) {
         return facultyService.findByNameOrColor(nameOrColor);
     }
 
     @GetMapping("/{id}/students")
-    public Collection<StudentRecord> getStudent(@RequestParam Long id) {
+    public Collection<StudentRecord> getStudent(@RequestParam long id) {
         return facultyService.getStudent(id);
     }
 }

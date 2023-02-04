@@ -38,6 +38,7 @@ private Avatar avatar;
     }
 
     @ManyToOne
+    @JoinColumn (name = "faculty_id")
   private Faculty faculty;
 
     public Faculty getFaculty() {

@@ -24,6 +24,7 @@ public class RecordMapper {
         System.out.println("студент рекорд " + studentRecord.getId());
         studentRecord.setName(student.getName());
         studentRecord.setAge(student.getAge());
+        studentRecord.setFaculty(toRecord(student.getFaculty()));
 
         return studentRecord;
     }
@@ -42,6 +43,7 @@ public class RecordMapper {
         faculty.setId(facultyRecord.getId());
         faculty.setName(facultyRecord.getName());
         faculty.setColor(facultyRecord.getColor());
+
         return faculty;
     }
     public Student toEntity (StudentRecord studentRecord){
@@ -49,6 +51,7 @@ public class RecordMapper {
         student.setId(studentRecord.getId());
         student.setName(studentRecord.getName());
         student.setAge(studentRecord.getAge());
+        student.setFaculty(toEntity(studentRecord.getFaculty()));
         return student;
     }
     public Avatar toEntity (AvatarRecord avatarRecord){
