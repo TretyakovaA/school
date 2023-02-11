@@ -55,7 +55,7 @@ public class FacultyController {
     }
 
     @GetMapping("/{id}/students")
-    public Collection<StudentRecord> getStudent(@RequestParam long id) {
+    public Collection<StudentRecord> getStudent(@PathVariable long id) {
         return facultyService.getStudent(id);
     }
 }

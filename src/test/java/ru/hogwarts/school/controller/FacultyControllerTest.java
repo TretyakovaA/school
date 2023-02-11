@@ -1,7 +1,6 @@
 package ru.hogwarts.school.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -12,7 +11,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.hogwarts.school.component.RecordMapper;
 import ru.hogwarts.school.model.Faculty;
+import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.records.FacultyRecord;
+import ru.hogwarts.school.records.StudentRecord;
 import ru.hogwarts.school.repository.FacultyRepository;
 import ru.hogwarts.school.service.FacultyService;
 
@@ -42,7 +43,7 @@ class FacultyControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
-    @Autowired
+    @SpyBean
     private RecordMapper recordMapper;
 
     @Test
@@ -88,22 +89,133 @@ class FacultyControllerTest {
     }
 
     @Test
-    void editFaculty() {
+    void editFaculty() throws Exception {
+        long id = 1L;
+        String name = "Med";
+        String color = "Blue";
+
+        String jsonResult = objectMapper.writeValueAsString(recordMapper.toRecord(resultFaculty()));
+
+        Faculty changedFaculty = new Faculty();
+        changedFaculty.setId(id);
+        changedFaculty.setName(name);
+        changedFaculty.setColor(color);
+
+        FacultyRecord changesToFaculty = new FacultyRecord();
+        changesToFaculty.setName("Med");
+        changesToFaculty.setColor("Blue");
+
+        when(facultyRepository.save(any(Faculty.class))).thenReturn(changedFaculty);
+        when(facultyRepository.findById(any(long.class))).thenReturn(Optional.of(changedFaculty));
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .put("/faculty/" + id)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(changesToFaculty))
+                ).andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().json(jsonResult));
+
     }
 
     @Test
-    void deleteFaculty() {
+    void deleteFaculty() throws Exception {
+        long id = 1L;
+        String name = "Med";
+        String color = "Blue";
+
+        String jsonResult = objectMapper.writeValueAsString(recordMapper.toRecord(resultFaculty()));
+
+        Faculty deletedFaculty = new Faculty();
+        deletedFaculty.setId(id);
+        deletedFaculty.setName(name);
+        deletedFaculty.setColor(color);
+
+        when(facultyRepository.findById(any(long.class))).thenReturn(Optional.of(deletedFaculty));
+        doNothing().when(facultyRepository).deleteById(id);
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .delete("/faculty/" + id)
+                        .contentType(MediaType.APPLICATION_JSON)
+                ).andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().json(jsonResult));
+
     }
 
     @Test
-    void findFacultiesByColor() {
+    void findFacultiesByColor() throws Exception {
+        long id = 1L;
+        String name = "Med";
+        String color = "Blue";
+
+        List<FacultyRecord> facultyListRecord =  List.of(recordMapper.toRecord(resultFaculty()));
+        String jsonResult = objectMapper.writeValueAsString(facultyListRecord);
+
+        Faculty foundFaculty = new Faculty();
+        foundFaculty.setId(id);
+        foundFaculty.setName(name);
+        foundFaculty.setColor(color);
+
+
+        when(facultyRepository.findByColor(any(String.class))).thenReturn(List.of(foundFaculty));
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/faculty/find?color="+ color)
+                ).andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().json(jsonResult));
     }
 
     @Test
-    void findByNameOrColor() {
+    void findByNameOrColor() throws Exception {
+        long id = 1L;
+        String name = "Med";
+        String color = "Blue";
+
+        List<FacultyRecord> facultyListRecord =  List.of(recordMapper.toRecord(resultFaculty()));
+        String jsonResult = objectMapper.writeValueAsString(facultyListRecord);
+
+        Faculty foundFaculty = new Faculty();
+        foundFaculty.setId(id);
+        foundFaculty.setName(name);
+        foundFaculty.setColor(color);
+
+
+        when(facultyRepository.findByNameOrColorIgnoreCase (any(String.class),any(String.class))).thenReturn(List.of(foundFaculty));
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/faculty/findby?nameOrColor="+ color)
+                ).andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().json(jsonResult));
     }
 
     @Test
-    void getStudent() {
+    void getStudents() throws Exception {
+        long id = 1L;
+        String name = "Med";
+        String color = "Blue";
+
+        Faculty foundFaculty = new Faculty();
+        foundFaculty.setId(id);
+        foundFaculty.setName(name);
+        foundFaculty.setColor(color);
+        Student student1 = new Student("Настя", 5, foundFaculty);
+        Student student2 = new Student("Вова", 15, foundFaculty);
+        List <Student> students = List.of (student1, student2);
+        foundFaculty.setStudents(students);
+
+        List<StudentRecord> studentListRecord =  List.of(recordMapper.toRecord(student1), recordMapper.toRecord(student2));
+        String jsonResult = objectMapper.writeValueAsString(studentListRecord);
+
+        when(facultyRepository.findById(any(long.class))).thenReturn(Optional.of(foundFaculty));
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/faculty/"+id +"/students")
+                ).andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().json(jsonResult));
+
     }
 }

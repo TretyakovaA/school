@@ -8,6 +8,8 @@ import ru.hogwarts.school.records.AvatarRecord;
 import ru.hogwarts.school.records.FacultyRecord;
 import ru.hogwarts.school.records.StudentRecord;
 
+import java.util.List;
+
 @Component
 public class RecordMapper {
     public FacultyRecord toRecord (Faculty faculty){
@@ -17,6 +19,7 @@ public class RecordMapper {
         facultyRecord.setColor(faculty.getColor());
         return facultyRecord;
     }
+
     public StudentRecord toRecord (Student student){
         StudentRecord studentRecord = new StudentRecord();
         System.out.println("студент " + student.getId());
