@@ -71,5 +71,15 @@ Student student = recordMapper.toEntity(studentRecord);
     }
 
 
+    public long getCountOfStudents() {
+        return studentRepository.findCountOfStudents();
+    }
 
+    public double countAverageAgeOfStudents() {
+        return studentRepository.countAverageAgeOfStudents();
+    }
+
+    public Collection<Student> findFiveLastStudents() {
+        return  studentRepository.findFiveLastStudents();
+    }
 }

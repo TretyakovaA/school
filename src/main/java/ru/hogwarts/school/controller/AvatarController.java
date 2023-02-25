@@ -1,4 +1,6 @@
 package ru.hogwarts.school.controller;
+import org.springdoc.api.annotations.ParameterObject;
+import org.springframework.data.domain.Pageable;
 import ru.hogwarts.school.model.Avatar;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 @RestController
 @RequestMapping("/student")
@@ -46,7 +49,14 @@ public class AvatarController {
         }
     }
 
+    @GetMapping(value = "/avatars")
+    public List<Avatar> findAllAvatars ( @ParameterObject Pageable pageable){
+return avatarService.findAllAvatars (pageable);
+    }
+
     public AvatarController(AvatarService avatarService) {
         this.avatarService = avatarService;
     }
+
+
 }
