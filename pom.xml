@@ -70,6 +70,10 @@
 			<version>1.51h</version>
 		</dependency>
 		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<!--<version> (managed by Spring Boot)42.2.5 </version> -->
