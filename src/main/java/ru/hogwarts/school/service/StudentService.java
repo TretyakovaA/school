@@ -1,6 +1,8 @@
 package ru.hogwarts.school.service;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.component.RecordMapper;
 import ru.hogwarts.school.exception.StudentNotFoundException;
@@ -18,6 +20,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class StudentService {
+    Logger logger = LoggerFactory.getLogger(StudentService.class);
     private final RecordMapper recordMapper;
     private final StudentRepository studentRepository;
 
@@ -30,12 +33,18 @@ public class StudentService {
 
     public StudentRecord addStudent(StudentRecord studentRecord) {
 Student student = recordMapper.toEntity(studentRecord);
+        logger.info("Студент добавлен: " + student.getName());
         return recordMapper.toRecord(studentRepository.save(student));
 
     }
 
     public StudentRecord findStudent(long id) {
-        Student foundStudent = studentRepository.findById(id).orElseThrow(()-> new StudentNotFoundException(id));
+        Student foundStudent = studentRepository.findById(id).orElseThrow(()-> {
+            logger.info("Студент с id "+ id+" не найден");
+                new StudentNotFoundException(id);
+        return null;
+        });
+        logger.info("Студент с id "+ id+" найден");
         System.out.println(foundStudent);
         return recordMapper.toRecord(foundStudent);
     }
@@ -44,13 +53,14 @@ Student student = recordMapper.toEntity(studentRecord);
         Student oldStudent = studentRepository.findById(id).orElseThrow(()-> new StudentNotFoundException(id));
         oldStudent.setName(studentRecord.getName());
         oldStudent.setAge(studentRecord.getAge());
-
+        logger.info("Студент с id "+ id+" изменен");
         return recordMapper.toRecord(studentRepository.save(oldStudent));
     }
 
     public StudentRecord deleteStudent(long id) {
         Student student = studentRepository.findById(id).orElseThrow(()-> new StudentNotFoundException(id));
         studentRepository.delete(student);
+        logger.info("Студент с id "+ id+" удален");
         return recordMapper.toRecord(student);
     }
     public Collection<StudentRecord> findByAge(int age) {
