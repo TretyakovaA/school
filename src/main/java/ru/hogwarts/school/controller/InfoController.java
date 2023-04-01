@@ -18,4 +18,9 @@ public class InfoController {
     public int getPort () {
         return infoService.getPort ();
     }
+
+    @GetMapping("/parallel")
+    public int getParallelSum () {
+        return infoService.getParallelSum ();
+    }
 }

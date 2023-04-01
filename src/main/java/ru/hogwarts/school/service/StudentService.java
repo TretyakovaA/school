@@ -1,21 +1,16 @@
 package ru.hogwarts.school.service;
+import java.util.*;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.component.RecordMapper;
 import ru.hogwarts.school.exception.StudentNotFoundException;
-import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.records.FacultyRecord;
 import ru.hogwarts.school.records.StudentRecord;
-import ru.hogwarts.school.repository.FacultyRepository;
 import ru.hogwarts.school.repository.StudentRepository;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.stream.Collectors;
 
 @Service
@@ -91,5 +86,33 @@ Student student = recordMapper.toEntity(studentRecord);
 
     public Collection<Student> findFiveLastStudents() {
         return  studentRepository.findFiveLastStudents();
+    }
+/*  Добавить эндпоинт для получения всех имен всех студентов, чье имя начинается с буквы А.
+//    В ответе должен находиться отсортированный в алфавитном порядке список с именами в верхнем регистре.
+//    Для получения всех студентов из базы использовать метод репозитория - findAll().*/
+
+    public Collection<StudentRecord> getNamesOfAllStudents() {
+        return studentRepository
+                .findAll()
+                .stream()
+                .filter(st -> st.getName().startsWith("А") || st.getName().startsWith("а"))
+                .sorted((st1, st2)->st1.getName().compareToIgnoreCase(st2.getName()))
+                //.map(st-> st.getName())
+                //.forEach(st -> st.toUpperCase())
+
+                .map(st -> {st.setName(st.getName().toUpperCase());
+                    return st;})
+                .map(recordMapper::toRecord)
+                .collect(Collectors.toList());
+
+    }
+
+
+    public OptionalDouble getAverageAgeOfStudents() {
+        return studentRepository
+                .findAll()
+                .stream()
+                .mapToInt(st -> st.getAge())
+                .average();
     }
 }

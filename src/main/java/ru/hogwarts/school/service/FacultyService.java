@@ -11,6 +11,7 @@ import ru.hogwarts.school.records.StudentRecord;
 import ru.hogwarts.school.repository.FacultyRepository;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.stream.Collectors;
 
 @Service
@@ -72,5 +73,14 @@ logger.info("Факультет с id "+ id+" найден");
                         .map(recordMapper::toRecord)
                         .collect(Collectors.toList()))
                 .orElseThrow(()-> new FacultyNotFoundException(id));
+    }
+
+    public String getFacultyLogestName() {
+        return (facultyRepository
+                .findAll()
+                .stream()
+                .max(Comparator.comparingInt(f-> f.getName().length()))
+                .orElseThrow()).getName();
+
     }
 }

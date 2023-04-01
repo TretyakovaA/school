@@ -58,4 +58,9 @@ public class FacultyController {
     public Collection<StudentRecord> getStudent(@PathVariable long id) {
         return facultyService.getStudent(id);
     }
+
+    @GetMapping("/logestname")
+    public String getFacultyLogestName () {
+        return facultyService.getFacultyLogestName();
+    }
 }

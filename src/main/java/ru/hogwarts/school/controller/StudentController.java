@@ -1,8 +1,6 @@
 package ru.hogwarts.school.controller;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.records.FacultyRecord;
@@ -11,7 +9,7 @@ import ru.hogwarts.school.service.StudentService;
 
 import javax.validation.Valid;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.OptionalDouble;
 
 @RestController
 @RequestMapping(path = "/student")
@@ -73,6 +71,19 @@ public class StudentController {
     @GetMapping ("/lastfivestudents")
     public  Collection <Student> findFiveLastStudents (){
         return studentService.findFiveLastStudents();
+    }
+
+/*  Добавить эндпоинт для получения всех имен всех студентов, чье имя начинается с буквы А.
+//    В ответе должен находиться отсортированный в алфавитном порядке список с именами в верхнем регистре.
+//    Для получения всех студентов из базы использовать метод репозитория - findAll().*/
+
+    @GetMapping ("/namesstartwitha")
+    public  Collection <StudentRecord> getNamesOfAllStudents (){
+        return studentService.getNamesOfAllStudents();
+    }
+    @GetMapping ("/averageage2")
+    public OptionalDouble getAverageAgeOfStudents() {
+        return studentService.getAverageAgeOfStudents();
     }
 
 }
