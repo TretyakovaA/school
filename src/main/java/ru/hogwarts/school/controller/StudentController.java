@@ -85,5 +85,14 @@ public class StudentController {
     public OptionalDouble getAverageAgeOfStudents() {
         return studentService.getAverageAgeOfStudents();
     }
+    @GetMapping ("/printnames")
+    public void printStudentsNames() throws InterruptedException {
+         studentService.printStudentsNames();
+    }
+    @GetMapping ("/printnames2")
+    public void printStudentsNames2() throws InterruptedException {
+        studentService.printStudentsNames2();
+    }
+
 
 }
